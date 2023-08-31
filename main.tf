@@ -6,6 +6,10 @@ data "azurerm_subnet" "vm_subnet" {
   resource_group_name  = var.resource_group_name
 }
 
+resource "random_id" "storage_account_id" {
+  byte_length = 4
+  prefix = "strgacctid"
+}
 
 
 # Create public IPs
@@ -17,8 +21,8 @@ resource "azurerm_public_ip" "servicenow_vm_public_ip" {
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "my_terraform_nsg" {
-  name                = "myNetworkSecurityGroup"
+resource "azurerm_network_security_group" "servicenow_vm_nsg" {
+  name                = "nsg-${var.vm_name}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
 
@@ -36,13 +40,13 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
 }
 
 # Create network interface
-resource "azurerm_network_interface" "my_terraform_nic" {
-  name                = "myNIC"
+resource "azurerm_network_interface" "servicenow_vm_nic" {
+  name                = "nic-${var.vm_name}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "my_nic_configuration"
+    name                          = "${var.vm_name}_nic_configuration"
     subnet_id                     = data.azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.servicenow_vm_public_ip.id
@@ -51,8 +55,8 @@ resource "azurerm_network_interface" "my_terraform_nic" {
 
 
 # Create storage account for boot diagnostics
-resource "azurerm_storage_account" "my_storage_account" {
-  name                     = "tqtqtqreerrere11223"
+resource "azurerm_storage_account" "servicenow_vm_storage_account" {
+  name                     = "servicenow${random_id.storage_account_id.hex}"
   location                 = var.resource_group_location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
@@ -60,16 +64,16 @@ resource "azurerm_storage_account" "my_storage_account" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.my_terraform_nic.id
-  network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
+resource "azurerm_network_interface_security_group_association" "servicenow_vm_nic_nsg_association" {
+  network_interface_id      = azurerm_network_interface.servicenow_vm_nic.id
+  network_security_group_id = azurerm_network_security_group.servicenow_vm_nsg.id
 }
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   name                  = var.vm_name
   location              = var.resource_group_location
   resource_group_name   = var.resource_group_name
-  network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
+  network_interface_ids = [azurerm_network_interface.servicenow_vm_nic.id]
   size                  = "Standard_DS1_v2"
 
   os_disk {
@@ -91,6 +95,6 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   disable_password_authentication = false
 
   boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
+    storage_account_uri = azurerm_storage_account.servicenow_vm_storage_account.primary_blob_endpoint
   }
 }
