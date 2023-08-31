@@ -6,9 +6,11 @@ data "azurerm_subnet" "vm_subnet" {
   resource_group_name  = var.resource_group_name
 }
 
+
+
 # Create public IPs
 resource "azurerm_public_ip" "servicenow_vm_public_ip" {
-  name                = var.vmname
+  name                = var.vm_name
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
@@ -50,7 +52,7 @@ resource "azurerm_network_interface" "my_terraform_nic" {
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "my_storage_account" {
-  name                     = "diag${random_id.random_id.hex}"
+  name                     = "tqtqtqreerrere11223"
   location                 = var.resource_group_location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
