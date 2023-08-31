@@ -3,7 +3,7 @@
 data "azurerm_subnet" "vm_subnet" {
   name                 = var.vm_subnet_name
   virtual_network_name = var.vnet_name
-  resource_group_name  = azurerm_resource_group.servicenow_vm_rg.name
+  resource_group_name  = var.vnet_resource_group_name
 }
 
 resource "random_id" "storage_account_id" {
@@ -11,6 +11,7 @@ resource "random_id" "storage_account_id" {
   prefix      = "servicenowvmdg"
 }
 
+# Create resource group for virtual machine
 resource "azurerm_resource_group" "servicenow_vm_rg" {
   name     = "rg-${var.vm_name}"
   location = var.vm_resource_group_location
