@@ -13,12 +13,12 @@ resource "random_id" "storage_account_id" {
 
 resource "azurerm_resource_group" "servicenow_vm_rg" {
   name     = "rg-${var.vm_name}"
-  location = var.resource_group_location
+  location = var.vm_resource_group_location
 }
 # Create public IPs
 resource "azurerm_public_ip" "servicenow_vm_public_ip" {
   name                = "pip-${var.vm_name}"
-  location            = var.resource_group_location
+  location            = var.vm_resource_group_location
   resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
   allocation_method   = "Dynamic"
 }
@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "servicenow_vm_public_ip" {
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "servicenow_vm_nsg" {
   name                = "nsg-${var.vm_name}"
-  location            = var.resource_group_location
+  location            = var.vm_resource_group_location
   resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
 
   security_rule {
@@ -45,7 +45,7 @@ resource "azurerm_network_security_group" "servicenow_vm_nsg" {
 # Create network interface
 resource "azurerm_network_interface" "servicenow_vm_nic" {
   name                = "nic-${var.vm_name}"
-  location            = var.resource_group_location
+  location            = var.vm_resource_group_location
   resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
 
   ip_configuration {
@@ -60,7 +60,7 @@ resource "azurerm_network_interface" "servicenow_vm_nic" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "servicenow_vm_storage_account" {
   name                     = "st${random_id.storage_account_id.hex}"
-  location                 = var.resource_group_location
+  location                 = var.vm_resource_group_location
   resource_group_name      = azurerm_resource_group.servicenow_vm_rg.name
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -74,7 +74,7 @@ resource "azurerm_network_interface_security_group_association" "servicenow_vm_n
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   name                  = "vm-${var.vm_name}"
-  location              = var.resource_group_location
+  location              = var.vm_resource_group_location
   resource_group_name   = azurerm_resource_group.servicenow_vm_rg.name
   network_interface_ids = [azurerm_network_interface.servicenow_vm_nic.id]
   size                  = "Standard_DS1_v2"
