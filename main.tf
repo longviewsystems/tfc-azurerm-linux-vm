@@ -1,43 +1,33 @@
 # Generates a random pet name to be used as a resource group name
-resource "random_pet" "rg_name" {
-  prefix = var.resource_group_name_prefix
+
+data "azurerm_subnet" "vm_subnet" {
+  name                 = var.vm_subnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = var.resource_group_name
 }
 
-# create resource group
-resource "azurerm_resource_group" "rg" {
+resource "random_id" "storage_account_id" {
+  byte_length = 4
+  prefix      = "servicenowvmdg"
+}
+
+resource "azurerm_resource_group" "servicenow_vm_rg" {
+  name     = "rg-${var.vm_name}"
   location = var.resource_group_location
-  name     = random_pet.rg_name.id
 }
-
-# Create virtual network
-resource "azurerm_virtual_network" "my_terraform_network" {
-  name                = "myVnet"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-}
-
-# Create subnet
-resource "azurerm_subnet" "my_terraform_subnet" {
-  name                 = "mySubnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.my_terraform_network.name
-  address_prefixes     = ["10.0.1.0/24"]
-}
-
 # Create public IPs
-resource "azurerm_public_ip" "my_terraform_public_ip" {
-  name                = "myPublicIP"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_public_ip" "servicenow_vm_public_ip" {
+  name                = "pip-${var.vm_name}"
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
   allocation_method   = "Dynamic"
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "my_terraform_nsg" {
-  name                = "myNetworkSecurityGroup"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_network_security_group" "servicenow_vm_nsg" {
+  name                = "nsg-${var.vm_name}"
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
 
   security_rule {
     name                       = "SSH"
@@ -53,54 +43,44 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
 }
 
 # Create network interface
-resource "azurerm_network_interface" "my_terraform_nic" {
-  name                = "myNIC"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_network_interface" "servicenow_vm_nic" {
+  name                = "nic-${var.vm_name}"
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
 
   ip_configuration {
-    name                          = "my_nic_configuration"
-    subnet_id                     = azurerm_subnet.my_terraform_subnet.id
+    name                          = "${var.vm_name}_nic_configuration"
+    subnet_id                     = data.azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.servicenow_vm_public_ip.id
   }
 }
 
-# Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.my_terraform_nic.id
-  network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
-}
-
-# Generate random text for a unique storage account name
-resource "random_id" "random_id" {
-  keepers = {
-    # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.rg.name
-  }
-
-  byte_length = 8
-}
 
 # Create storage account for boot diagnostics
-resource "azurerm_storage_account" "my_storage_account" {
-  name                     = "diag${random_id.random_id.hex}"
-  location                 = azurerm_resource_group.rg.location
-  resource_group_name      = azurerm_resource_group.rg.name
+resource "azurerm_storage_account" "servicenow_vm_storage_account" {
+  name                     = "st${random_id.storage_account_id.hex}"
+  location                 = var.resource_group_location
+  resource_group_name      = azurerm_resource_group.servicenow_vm_rg.name
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "servicenow_vm_nic_nsg_association" {
+  network_interface_id      = azurerm_network_interface.servicenow_vm_nic.id
+  network_security_group_id = azurerm_network_security_group.servicenow_vm_nsg.id
+}
 # Create virtual machine
-resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
-  name                  = "myVM"
-  location              = azurerm_resource_group.rg.location
-  resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
+resource "azurerm_linux_virtual_machine" "servicenow_vm" {
+  name                  = "vm-${var.vm_name}"
+  location              = var.resource_group_location
+  resource_group_name   = azurerm_resource_group.servicenow_vm_rg.name
+  network_interface_ids = [azurerm_network_interface.servicenow_vm_nic.id]
   size                  = "Standard_DS1_v2"
 
   os_disk {
-    name                 = "myOsDisk"
+    name                 = "osdisk-${var.vm_name}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
@@ -112,15 +92,12 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
     version   = "latest"
   }
 
-  computer_name  = "hostname"
-  admin_username = var.username
-
-  admin_ssh_key {
-    username   = var.username
-    public_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
-  }
+  computer_name                   = var.vm_name
+  admin_username                  = var.vm_username
+  admin_password                  = var.vm_password
+  disable_password_authentication = false
 
   boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
+    storage_account_uri = azurerm_storage_account.servicenow_vm_storage_account.primary_blob_endpoint
   }
 }
