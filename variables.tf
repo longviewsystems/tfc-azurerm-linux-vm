@@ -6,7 +6,7 @@ variable "vnet_name" {
 
 variable "vm_subnet_name" {
   type        = string
-  description = "Name of the subnet."  
+  description = "Name of the subnet."
 }
 
 

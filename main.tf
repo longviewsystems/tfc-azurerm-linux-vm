@@ -8,7 +8,7 @@ data "azurerm_subnet" "vm_subnet" {
 
 resource "random_id" "storage_account_id" {
   byte_length = 4
-  prefix = "strgacctid"
+  prefix      = "strgacctid"
 }
 
 
@@ -89,9 +89,9 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
     version   = "latest"
   }
 
-  computer_name  = var.vm_name
-  admin_username = var.vm_username
-  admin_password = var.vm_password
+  computer_name                   = var.vm_name
+  admin_username                  = var.vm_username
+  admin_password                  = var.vm_password
   disable_password_authentication = false
 
   boot_diagnostics {
