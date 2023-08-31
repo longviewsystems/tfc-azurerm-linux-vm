@@ -1,5 +1,10 @@
 # Generates a random pet name to be used as a resource group name
 
+data "azurerm_subnet" "vm_subnet" {
+  name                 = var.vm_subnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = var.resource_group_name
+}
 
 # Create public IPs
 resource "azurerm_public_ip" "servicenow_vm_public_ip" {
@@ -12,8 +17,8 @@ resource "azurerm_public_ip" "servicenow_vm_public_ip" {
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "myNetworkSecurityGroup"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
 
   security_rule {
     name                       = "SSH"
@@ -36,7 +41,7 @@ resource "azurerm_network_interface" "my_terraform_nic" {
 
   ip_configuration {
     name                          = "my_nic_configuration"
-    subnet_id                     = var.vm_subnet_name
+    subnet_id                     = data.azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.servicenow_vm_public_ip.id
   }
@@ -46,8 +51,8 @@ resource "azurerm_network_interface" "my_terraform_nic" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "my_storage_account" {
   name                     = "diag${random_id.random_id.hex}"
-  location                 = azurerm_resource_group.rg.location
-  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = var.resource_group_location
+  resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
@@ -78,8 +83,8 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
     version   = "latest"
   }
 
-  computer_name  = var.vmname
-  admin_username = var.username
+  computer_name  = var.vm_name
+  admin_username = var.vm_username
   admin_password = var.vm_password
 
   boot_diagnostics {
