@@ -88,6 +88,7 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   computer_name  = var.vm_name
   admin_username = var.vm_username
   admin_password = var.vm_password
+  disable_password_authentication = false
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
