@@ -66,7 +66,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
 }
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "servicenow_vm" {
-  name                  = var.vname
+  name                  = var.vm_name
   location              = var.resource_group_location
   resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
