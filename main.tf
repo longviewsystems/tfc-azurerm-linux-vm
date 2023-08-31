@@ -8,7 +8,7 @@ data "azurerm_subnet" "vm_subnet" {
 
 resource "random_id" "storage_account_id" {
   byte_length = 4
-  prefix      = "servicenowvmdig"
+  prefix      = "servicenowvmdg"
 }
 
 # Create public IPs
