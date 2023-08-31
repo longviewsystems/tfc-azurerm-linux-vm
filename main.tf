@@ -8,13 +8,12 @@ data "azurerm_subnet" "vm_subnet" {
 
 resource "random_id" "storage_account_id" {
   byte_length = 4
-  prefix      = "strgacctid"
+  prefix      = "servicenowvmdig"
 }
-
 
 # Create public IPs
 resource "azurerm_public_ip" "servicenow_vm_public_ip" {
-  name                = var.vm_name
+  name                = "pip-${var.vm_name}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
@@ -56,7 +55,7 @@ resource "azurerm_network_interface" "servicenow_vm_nic" {
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "servicenow_vm_storage_account" {
-  name                     = "servicenow${random_id.storage_account_id.hex}"
+  name                     = "st${random_id.storage_account_id.hex}"
   location                 = var.resource_group_location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
@@ -70,7 +69,7 @@ resource "azurerm_network_interface_security_group_association" "servicenow_vm_n
 }
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "servicenow_vm" {
-  name                  = var.vm_name
+  name                  = "vm-${var.vm_name}"
   location              = var.resource_group_location
   resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.servicenow_vm_nic.id]
