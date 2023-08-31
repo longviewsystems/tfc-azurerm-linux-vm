@@ -16,9 +16,9 @@ variable "vm_resource_group_location" {
 
 variable "vnet_resource_group_name" {
   type        = string
-  description = "Name of the vNet's resource group."  
+  description = "Name of the vNet's resource group."
 }
-  
+
 variable "vm_username" {
   type        = string
   description = "The username for the local account that will be created on the new VM."

@@ -1,5 +1,3 @@
-# Generates a random pet name to be used as a resource group name
-
 data "azurerm_subnet" "vm_subnet" {
   name                 = var.vm_subnet_name
   virtual_network_name = var.vnet_name
@@ -56,7 +54,6 @@ resource "azurerm_network_interface" "servicenow_vm_nic" {
     public_ip_address_id          = azurerm_public_ip.servicenow_vm_public_ip.id
   }
 }
-
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "servicenow_vm_storage_account" {
