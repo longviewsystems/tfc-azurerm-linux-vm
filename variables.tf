@@ -34,3 +34,10 @@ variable "vm_name" {
   description = "Name of the virtual machine."
   default     = "vmdemo"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to be applied to all resources."
+  default     = {}
+}
+

@@ -11,7 +11,7 @@ resource "random_id" "storage_account_id" {
 
 # Create resource group for virtual machine
 resource "azurerm_resource_group" "servicenow_vm_rg" {
-  name     = "rg-${var.vm_name}"
+  name     = "rg-${var.vm_name}-${terraform.workspace}"
   location = var.vm_resource_group_location
 }
 # Create public IPs
@@ -98,4 +98,13 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.servicenow_vm_storage_account.primary_blob_endpoint
   }
+
+  tags = merge(
+    var.tags,
+    {
+      Environment         = "Demo",
+      Owner               = "ServiceNow"
+      ServiceNowReference = "${terraform.workspace}"
+    },
+  )
 }
