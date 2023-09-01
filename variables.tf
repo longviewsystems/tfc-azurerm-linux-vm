@@ -24,15 +24,14 @@ variable "vm_username" {
   description = "The username for the local account that will be created on the new VM."
   default     = "azureadmin"
 }
+
 variable "vm_password" {
   type        = string
   description = "The password for the local account that will be created on the new VM."
-
 }
 variable "vm_name" {
   type        = string
   description = "Name of the virtual machine."
-  default     = "vmdemo"
 }
 
 variable "tags" {

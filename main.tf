@@ -13,6 +13,14 @@ resource "random_id" "storage_account_id" {
 resource "azurerm_resource_group" "servicenow_vm_rg" {
   name     = "rg-${var.vm_name}-${terraform.workspace}"
   location = var.vm_resource_group_location
+  tags = merge(
+    var.tags,
+    {
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
+    },
+  )
 }
 # Create public IPs
 resource "azurerm_public_ip" "servicenow_vm_public_ip" {
@@ -20,6 +28,14 @@ resource "azurerm_public_ip" "servicenow_vm_public_ip" {
   location            = var.vm_resource_group_location
   resource_group_name = azurerm_resource_group.servicenow_vm_rg.name
   allocation_method   = "Dynamic"
+  tags = merge(
+    var.tags,
+    {
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
+    },
+  )
 }
 
 # Create Network Security Group and rule
@@ -39,6 +55,14 @@ resource "azurerm_network_security_group" "servicenow_vm_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+  tags = merge(
+    var.tags,
+    {
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
+    },
+  )
 }
 
 # Create network interface
@@ -53,6 +77,14 @@ resource "azurerm_network_interface" "servicenow_vm_nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.servicenow_vm_public_ip.id
   }
+  tags = merge(
+    var.tags,
+    {
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
+    },
+  )
 }
 
 # Create storage account for boot diagnostics
@@ -62,6 +94,14 @@ resource "azurerm_storage_account" "servicenow_vm_storage_account" {
   resource_group_name      = azurerm_resource_group.servicenow_vm_rg.name
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  tags = merge(
+    var.tags,
+    {
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
+    },
+  )
 }
 
 # Connect the security group to the network interface
@@ -102,9 +142,9 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   tags = merge(
     var.tags,
     {
-      Environment         = "Demo",
-      Owner               = "ServiceNow"
-      ServiceNowReference = "${terraform.workspace}"
+      Environment     = "Demo",
+      Owner           = "ServiceNow"
+      ServiceNow_RITM = "${terraform.workspace}"
     },
   )
 }

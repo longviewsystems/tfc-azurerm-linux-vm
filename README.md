@@ -39,7 +39,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_vm_name"></a> [vm\_name](#input\_vm\_name) | Name of the virtual machine. | `string` | `"vmdemo"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all resources. | `map(string)` | `{}` | no |
+| <a name="input_vm_name"></a> [vm\_name](#input\_vm\_name) | Name of the virtual machine. | `string` | n/a | yes |
 | <a name="input_vm_password"></a> [vm\_password](#input\_vm\_password) | The password for the local account that will be created on the new VM. | `string` | n/a | yes |
 | <a name="input_vm_resource_group_location"></a> [vm\_resource\_group\_location](#input\_vm\_resource\_group\_location) | Location of the resource group. | `string` | n/a | yes |
 | <a name="input_vm_subnet_name"></a> [vm\_subnet\_name](#input\_vm\_subnet\_name) | Name of the subnet. | `string` | n/a | yes |
