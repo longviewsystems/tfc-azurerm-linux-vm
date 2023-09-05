@@ -44,8 +44,8 @@ No modules.
 | <a name="input_vm_password"></a> [vm\_password](#input\_vm\_password) | The password for the local account that will be created on the new VM. | `string` | n/a | yes |
 | <a name="input_vm_resource_group_location"></a> [vm\_resource\_group\_location](#input\_vm\_resource\_group\_location) | Location of the resource group. | `string` | n/a | yes |
 | <a name="input_vm_subnet_name"></a> [vm\_subnet\_name](#input\_vm\_subnet\_name) | Name of the subnet. | `string` | n/a | yes |
-| <a name="input_vm_username"></a> [vm\_username](#input\_vm\_username) | The username for the local account that will be created on the new VM. | `string` | `"azureadmin"` | no |
-| <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Name of the virtual network. | `string` | `"vnetdemo"` | no |
+| <a name="input_vm_username"></a> [vm\_username](#input\_vm\_username) | The username for the local account that will be created on the new VM. | `string` | n/a | yes |
+| <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | n/a | `string` | n/a | yes |
 | <a name="input_vnet_resource_group_name"></a> [vnet\_resource\_group\_name](#input\_vnet\_resource\_group\_name) | Name of the vNet's resource group. | `string` | n/a | yes |
 
 ## Outputs
