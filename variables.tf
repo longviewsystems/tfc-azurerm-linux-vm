@@ -1,7 +1,5 @@
 variable "vnet_name" {
-  type        = string
-  description = "Name of the virtual network."
-  default     = "vnetdemo"
+  type = string
 }
 
 variable "vm_subnet_name" {
@@ -22,13 +20,14 @@ variable "vnet_resource_group_name" {
 variable "vm_username" {
   type        = string
   description = "The username for the local account that will be created on the new VM."
-  default     = "azureadmin"
 }
 
 variable "vm_password" {
   type        = string
   description = "The password for the local account that will be created on the new VM."
+  sensitive   = true
 }
+
 variable "vm_name" {
   type        = string
   description = "Name of the virtual machine."
