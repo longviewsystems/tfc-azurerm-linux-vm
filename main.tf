@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "servicenow_vm_rg" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }
@@ -33,7 +33,7 @@ resource "azurerm_public_ip" "servicenow_vm_public_ip" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }
@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "servicenow_vm_nsg" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }
@@ -82,7 +82,7 @@ resource "azurerm_network_interface" "servicenow_vm_nic" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }
@@ -99,7 +99,7 @@ resource "azurerm_storage_account" "servicenow_vm_storage_account" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }
@@ -144,7 +144,7 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
     {
       Environment     = "Demo",
       Owner           = "ServiceNow"
-      ServiceNow_RITM = "${terraform.workspace}"
+      ServiceNow_RITM = terraform.workspace
     },
   )
 }

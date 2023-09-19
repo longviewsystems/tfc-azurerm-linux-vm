@@ -1,5 +1,6 @@
 variable "vnet_name" {
-  type = string
+  type        = string
+  description = "Name of the vNet."
 }
 
 variable "vm_subnet_name" {
