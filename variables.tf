@@ -34,6 +34,11 @@ variable "vm_name" {
   description = "Name of the virtual machine."
 }
 
+variable "vm_size" {
+  type        = string
+  description = "Size of the virtual machine."
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to all resources."

@@ -115,7 +115,7 @@ resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   location              = var.vm_resource_group_location
   resource_group_name   = azurerm_resource_group.servicenow_vm_rg.name
   network_interface_ids = [azurerm_network_interface.servicenow_vm_nic.id]
-  size                  = "Standard_DS1_v2"
+  size                  = var.vm_size
 
   os_disk {
     name                 = "osdisk-${var.vm_name}"
