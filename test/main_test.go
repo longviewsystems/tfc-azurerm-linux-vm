@@ -7,10 +7,10 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestTerraformAzDoAgent(t *testing.T) {
+func TestVMmodule(t *testing.T) {
 	options := &terraform.Options{
-		TerraformDir: "../",
-		VarFiles:     []string{"azdo_agent.tfvars"},
+		TerraformDir: "./fixtures",
+		VarFiles:     []string{"linux-vm.tfvars"},
 	}
 
 	defer terraform.Destroy(t, options)

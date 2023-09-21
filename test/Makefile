@@ -2,9 +2,10 @@
 
 SHELL := /bin/bash
 
-azdo-agent-test:
-	echo "Calling azdo-agent-test"	
-	go test -v -timeout 45m
+test-tf:
+	echo "Calling terratest"	
+	go test -timeout 45m
+
 clean:
 	@find ../ -name terraform.tfstate -type f -exec rm -rf {} +
 	@find ../ -name terraform.tfstate.backup -type f -exec rm -rf {} +

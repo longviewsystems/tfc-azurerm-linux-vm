@@ -1,5 +1,6 @@
 variable "vnet_name" {
-  type = string
+  type        = string
+  description = "Name of the vNet."
 }
 
 variable "vm_subnet_name" {
@@ -31,6 +32,11 @@ variable "vm_password" {
 variable "vm_name" {
   type        = string
   description = "Name of the virtual machine."
+}
+
+variable "vm_size" {
+  type        = string
+  description = "Size of the virtual machine."
 }
 
 variable "tags" {
