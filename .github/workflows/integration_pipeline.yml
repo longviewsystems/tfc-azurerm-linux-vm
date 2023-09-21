@@ -78,7 +78,7 @@ jobs:
         run: go mod download
       - name: 'Run Terratest'
         working-directory: test
-        run: 
+        run: |
           make test-tf
           export TF_VAR_tenant_id=$ARM_TENANT_ID
           export TF_VAR_SubsId=$ARM_SUBSCRIPTION_ID
