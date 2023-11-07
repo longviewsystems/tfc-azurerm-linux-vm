@@ -1,3 +1,5 @@
+# the outputs of the terraform module
+
 output "resource_group_name" {
   description = "the name of the resource group where the VM gets created"
   value       = azurerm_resource_group.servicenow_vm_rg.name
