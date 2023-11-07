@@ -55,3 +55,10 @@ variable "tags" {
     managed_by  = "terratest"
   }
 }
+
+variable "vm_size" {
+  type        = string
+  description = "The size of the virtual machine."
+  default     = "Standard_DS1_v2"
+  
+}

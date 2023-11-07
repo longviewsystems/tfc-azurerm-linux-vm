@@ -1,3 +1,4 @@
+# the terraform variables file
 variable "vnet_name" {
   type        = string
   description = "Name of the vNet."
