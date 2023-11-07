@@ -1,3 +1,4 @@
+# The terraform providers file
 terraform {
   required_version = ">=0.12"
 
