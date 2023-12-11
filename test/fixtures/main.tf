@@ -68,7 +68,7 @@ resource "azurerm_linux_virtual_machine" "fixtures" {
     version   = "latest"
   }
 
-  computer_name                = "terratest-vmname"
+  computer_name                   = "terratest-vmname"
   admin_username                  = "linuxadmin"
   admin_password                  = "P@SsW0rd1234"
   disable_password_authentication = false
