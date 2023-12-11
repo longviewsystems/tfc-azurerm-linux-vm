@@ -1,6 +1,5 @@
 # Setup module for testing
 
-
 # Naming conventions
 module "naming" {
   source  = "Azure/naming/azurerm"
@@ -11,7 +10,6 @@ module "naming" {
   unique-include-numbers = false
   unique-length          = 4
 }
-
 
 # Resource Group
 resource "azurerm_resource_group" "fixtures" {
@@ -78,4 +76,3 @@ resource "azurerm_linux_virtual_machine" "fixtures" {
     storage_account_type = "Standard_LRS"
   }
 }
-
