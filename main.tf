@@ -105,10 +105,11 @@ resource "azurerm_storage_account" "servicenow_vm_storage_account" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "servicenow_vm_nic_nsg_association" {
-  network_interface_id      = azurerm_network_interface.servicenow_vm_nic.id
-  network_security_group_id = azurerm_network_security_group.servicenow_vm_nsg.id
-}
+# resource "azurerm_network_interface_security_group_association" "servicenow_vm_nic_nsg_association" {
+#   network_interface_id      = azurerm_network_interface.servicenow_vm_nic.id
+#   network_security_group_id = azurerm_network_security_group.servicenow_vm_nsg.id
+# }
+
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "servicenow_vm" {
   name                  = "vm-${var.vm_name}"
