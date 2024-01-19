@@ -4,15 +4,11 @@ data "azurerm_subnet" "vm_subnet" {
   resource_group_name  = var.vnet_resource_group_name
 }
 
-data "azurerm_resource_group" "vm_rg" {
-  name = var.vm_resource_group_name
-}
-
 # Creates a network interface
 resource "azurerm_network_interface" "vm_nic" {
   name                = "nic-${var.vm_name}"
   location            = var.vm_resource_group_location
-  resource_group_name = var.vm_resource_group_name
+  resource_group_name = var.vnet_resource_group_name
 
   ip_configuration {
     name                          = "${var.vm_name}_nic_configuration"
@@ -33,7 +29,7 @@ resource "azurerm_network_interface" "vm_nic" {
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm-${var.vm_name}"
   location              = var.vm_resource_group_location
-  resource_group_name   = var.vm_resource_group_name
+  resource_group_name   = var.vnet_resource_group_name
   network_interface_ids = [azurerm_network_interface.vm_nic.id]
   size                  = var.vm_size
 

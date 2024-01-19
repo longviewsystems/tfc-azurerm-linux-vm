@@ -39,11 +39,6 @@ variable "vm_size" {
   description = "Size of the virtual machine."
 }
 
-variable "vm_resource_group_name" {
-  type        = string
-  description = "Name of the resource group where the VM will be created."
-}
-
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to all resources."
