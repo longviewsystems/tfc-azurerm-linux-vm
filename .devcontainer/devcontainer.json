@@ -1,5 +1,6 @@
 {
-    "name": "LVS Terraform Dev Container",
+    //"name": "LVS Terraform Dev Container",
+    "name": "${localWorkspaceFolderBasename}",
 
     // Update the 'dockerComposeFile' list if you have more compose files or use different names.
     "dockerComposeFile": "docker-compose.yml",
@@ -42,6 +43,7 @@
 		"ms-azure-devops.azure-pipelines",
 		"ms-vscode-remote.vscode-remote-extensionpack",
         "aaron-bond.better-comments",
-        "GitHub.copilot"
+        "GitHub.copilot",
+        "GitHub.vscode-github-actions"
 	]
 }
