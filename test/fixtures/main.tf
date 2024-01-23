@@ -3,7 +3,7 @@
 # Naming conventions
 module "naming" {
   source  = "Azure/naming/azurerm"
-  version = "0.1.1"
+  version = "0.4.0"
   prefix  = ["mod", "test"]
   # suffix = random_string.random.value
 
