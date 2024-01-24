@@ -1,3 +1,5 @@
+# The main configuration file where all the resources are defined
+
 data "azurerm_subnet" "vm_subnet" {
   name                 = var.vm_subnet_name
   virtual_network_name = var.vnet_name
