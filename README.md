@@ -7,16 +7,14 @@ This module provisions a Linux virtual machine in Azure for ServiceNow + TF Clou
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=0.12 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~>2.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | ~>3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.0.11 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=3.86.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.99.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >=3.86.0 |
 
 ## Modules
 
@@ -26,14 +24,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_linux_virtual_machine.servicenow_vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
-| [azurerm_network_interface.servicenow_vm_nic](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface_security_group_association.servicenow_vm_nic_nsg_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
-| [azurerm_network_security_group.servicenow_vm_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_public_ip.servicenow_vm_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
-| [azurerm_resource_group.servicenow_vm_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_storage_account.servicenow_vm_storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [random_id.storage_account_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
+| [azurerm_linux_virtual_machine.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_network_interface.vm_nic](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
 | [azurerm_subnet.vm_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 
 ## Inputs
