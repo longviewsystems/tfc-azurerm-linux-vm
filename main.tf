@@ -1,12 +1,13 @@
 # The main configuration file where all the resources are defined
 
+# The data source to get the virtual network
 data "azurerm_subnet" "vm_subnet" {
   name                 = var.vm_subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.vnet_resource_group_name
 }
 
-# Creates a network interface
+# Creates a network interface for the VM
 resource "azurerm_network_interface" "vm_nic" {
   name                = "nic-${var.vm_name}"
   location            = var.vm_resource_group_location
@@ -25,7 +26,7 @@ resource "azurerm_network_interface" "vm_nic" {
   )
 }
 
-# Creates a Virtual Machine
+# Creates a Linux Virtual Machine
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm-${var.vm_name}"
   location              = var.vm_resource_group_location
