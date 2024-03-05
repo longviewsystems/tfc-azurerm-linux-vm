@@ -20,8 +20,6 @@ resource "azurerm_network_interface" "vm_nic" {
   tags = merge(
     var.tags,
     {
-      Environment     = "Demo",
-      Owner           = "ServiceNow"
       ServiceNow_RITM = terraform.workspace
     },
   )
@@ -38,7 +36,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     name                 = "osdisk-${var.vm_name}"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "StandardSSD_LRS"
   }
 
   source_image_reference {
@@ -56,8 +54,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   tags = merge(
     var.tags,
     {
-      Environment     = "Demo",
-      Owner           = "ServiceNow"
       ServiceNow_RITM = terraform.workspace
     },
   )
