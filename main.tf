@@ -1,12 +1,13 @@
 # The main configuration file where all the resources are defined
 
+# The data source to get the virtual network
 data "azurerm_subnet" "vm_subnet" {
   name                 = var.vm_subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.vnet_resource_group_name
 }
 
-# Creates a network interface
+# Creates a network interface for the VM with tags
 resource "azurerm_network_interface" "vm_nic" {
   name                = "nic-${var.vm_name}"
   location            = var.vm_resource_group_location
@@ -20,14 +21,12 @@ resource "azurerm_network_interface" "vm_nic" {
   tags = merge(
     var.tags,
     {
-      Environment     = "Demo",
-      Owner           = "ServiceNow"
       ServiceNow_RITM = terraform.workspace
     },
   )
 }
 
-# Creates a Virtual Machine
+# Creates a Linux Virtual Machine with tags
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm-${var.vm_name}"
   location              = var.vm_resource_group_location
@@ -38,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     name                 = "osdisk-${var.vm_name}"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "StandardSSD_LRS"
   }
 
   source_image_reference {
@@ -56,8 +55,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   tags = merge(
     var.tags,
     {
-      Environment     = "Demo",
-      Owner           = "ServiceNow"
       ServiceNow_RITM = terraform.workspace
     },
   )
